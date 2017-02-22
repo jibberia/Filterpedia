@@ -87,7 +87,7 @@ class HomogeneousColorBlur: CIFilter
     
     override var outputImage: CIImage?
     {
-        guard let inputImage = inputImage, kernel = kernel else
+        guard let inputImage = inputImage, let kernel = kernel else
         {
             return nil
         }
@@ -218,14 +218,14 @@ class ColorDirectedBlur: CIFilter
     
     override var outputImage: CIImage?
     {
-        guard let inputImage = inputImage, kernel = kernel else
+        guard let inputImage = inputImage, let kernel = kernel else
         {
             return nil
         }
         
         let accumulator = CIImageAccumulator(extent: inputImage.extent, format: kCIFormatARGB8)
         
-        accumulator.setImage(inputImage)
+        accumulator!.setImage(inputImage)
         
         for _ in 0 ... Int(inputIterations)
         {
@@ -235,11 +235,11 @@ class ColorDirectedBlur: CIFilter
                     (index, rect) in
                     return rect
                 },
-                                               arguments: [accumulator.image(), inputRadius, 1 - inputThreshold])
+                                               arguments: [accumulator!.image(), inputRadius, 1 - inputThreshold])
             
-            accumulator.setImage(final!)
+            accumulator!.setImage(final!)
         }
         
-        return accumulator.image()
+        return accumulator!.image()
     }
 }

@@ -150,7 +150,7 @@ class RefractedTextFilter: CIFilter
     override var outputImage: CIImage!
     {
         guard let inputImage = inputImage,
-            refractingKernel = refractingKernel else
+            let refractingKernel = refractingKernel else
         {
             return nil
         }
@@ -205,7 +205,7 @@ class RefractedTextFilter: CIFilter
         
         UIGraphicsEndImageContext()
         
-        rawTextImage = CIImage(image: textImage)!
+        rawTextImage = CIImage(image: textImage!)!
 
         refractingImage = CIFilter(name: "CIHeightFieldFromMask",
             withInputParameters: [

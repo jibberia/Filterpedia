@@ -108,16 +108,16 @@ class CircularBokeh: CIFilter, VImageFilter
             &imageBuffer,
             &format,
             nil,
-            imageRef,
+            imageRef!,
             UInt32(kvImageNoFlags))
         
-        let pixelBuffer = malloc(CGImageGetBytesPerRow(imageRef) * CGImageGetHeight(imageRef))
+        let pixelBuffer = malloc(CGImageGetBytesPerRow(imageRef!) * CGImageGetHeight(imageRef!))
         
         var outBuffer = vImage_Buffer(
             data: pixelBuffer,
-            height: UInt(CGImageGetHeight(imageRef)),
-            width: UInt(CGImageGetWidth(imageRef)),
-            rowBytes: CGImageGetBytesPerRow(imageRef))
+            height: UInt(CGImageGetHeight(imageRef!)),
+            width: UInt(CGImageGetWidth(imageRef!)),
+            rowBytes: CGImageGetBytesPerRow(imageRef!))
         
         let probeValue = UInt8((1 - inputBokehBias) * 30)
         let radius = Int(inputBokehRadius)
@@ -203,16 +203,16 @@ class HistogramEqualization: CIFilter, VImageFilter
             &imageBuffer,
             &format,
             nil,
-            imageRef,
+            imageRef!,
             UInt32(kvImageNoFlags))
         
-        let pixelBuffer = malloc(CGImageGetBytesPerRow(imageRef) * CGImageGetHeight(imageRef))
+        let pixelBuffer = malloc(CGImageGetBytesPerRow(imageRef!) * CGImageGetHeight(imageRef!))
         
         var outBuffer = vImage_Buffer(
             data: pixelBuffer,
-            height: UInt(CGImageGetHeight(imageRef)),
-            width: UInt(CGImageGetWidth(imageRef)),
-            rowBytes: CGImageGetBytesPerRow(imageRef))
+            height: UInt(CGImageGetHeight(imageRef!)),
+            width: UInt(CGImageGetWidth(imageRef!)),
+            rowBytes: CGImageGetBytesPerRow(imageRef!))
         
         
         vImageEqualization_ARGB8888(
@@ -330,16 +330,16 @@ class EndsInContrastStretch: CIFilter, VImageFilter
             &imageBuffer,
             &format,
             nil,
-            imageRef,
+            imageRef!,
             UInt32(kvImageNoFlags))
         
-        let pixelBuffer = malloc(CGImageGetBytesPerRow(imageRef) * CGImageGetHeight(imageRef))
+        let pixelBuffer = malloc(CGImageGetBytesPerRow(imageRef!) * CGImageGetHeight(imageRef!))
         
         var outBuffer = vImage_Buffer(
             data: pixelBuffer,
-            height: UInt(CGImageGetHeight(imageRef)),
-            width: UInt(CGImageGetWidth(imageRef)),
-            rowBytes: CGImageGetBytesPerRow(imageRef))
+            height: UInt(CGImageGetHeight(imageRef!)),
+            width: UInt(CGImageGetWidth(imageRef!)),
+            rowBytes: CGImageGetBytesPerRow(imageRef!))
         
         let low = [inputPercentLowRed, inputPercentLowGreen, inputPercentLowBlue, 0].map { return UInt32($0) }
         let hi = [inputPercentHiRed, inputPercentHiGreen, inputPercentHiBlue, 0].map { return UInt32($0) }
@@ -399,16 +399,16 @@ class ContrastStretch: CIFilter, VImageFilter
             &imageBuffer,
             &format,
             nil,
-            imageRef,
+            imageRef!,
             UInt32(kvImageNoFlags))
 
-        let pixelBuffer = malloc(CGImageGetBytesPerRow(imageRef) * CGImageGetHeight(imageRef))
+        let pixelBuffer = malloc(CGImageGetBytesPerRow(imageRef!) * CGImageGetHeight(imageRef!))
         
         var outBuffer = vImage_Buffer(
             data: pixelBuffer,
-            height: UInt(CGImageGetHeight(imageRef)),
-            width: UInt(CGImageGetWidth(imageRef)),
-            rowBytes: CGImageGetBytesPerRow(imageRef))
+            height: UInt(CGImageGetHeight(imageRef!)),
+            width: UInt(CGImageGetWidth(imageRef!)),
+            rowBytes: CGImageGetBytesPerRow(imageRef!))
         
         vImageContrastStretch_ARGB8888(
             &imageBuffer,
@@ -454,7 +454,7 @@ class HistogramSpecification: CIFilter, VImageFilter
     override var outputImage: CIImage?
     {
         guard let inputImage = inputImage,
-            inputHistogramSource = inputHistogramSource else
+            let inputHistogramSource = inputHistogramSource else
         {
             return nil
         }
@@ -482,13 +482,13 @@ class HistogramSpecification: CIFilter, VImageFilter
         
         vImageHistogramCalculation_ARGB8888(&histogramSourceBuffer, histogram, UInt32(kvImageNoFlags))
         
-        let pixelBuffer = malloc(CGImageGetBytesPerRow(imageRef) * CGImageGetHeight(imageRef))
+        let pixelBuffer = malloc(CGImageGetBytesPerRow(imageRef!) * CGImageGetHeight(imageRef!))
         
         var outBuffer = vImage_Buffer(
             data: pixelBuffer,
-            height: UInt(CGImageGetHeight(imageRef)),
-            width: UInt(CGImageGetWidth(imageRef)),
-            rowBytes: CGImageGetBytesPerRow(imageRef))
+            height: UInt(CGImageGetHeight(imageRef!)),
+            width: UInt(CGImageGetWidth(imageRef!)),
+            rowBytes: CGImageGetBytesPerRow(imageRef!))
 
         let alphaPointer = UnsafePointer<vImagePixelCount>(alpha)
         let redPointer = UnsafePointer<vImagePixelCount>(red)
@@ -538,7 +538,7 @@ func vImageBufferFromCIImage(ciImage: CIImage, ciContext: CIContext) -> vImage_B
         &buffer,
         &format,
         nil,
-        imageRef,
+        imageRef!,
         UInt32(kvImageNoFlags))
     
     return buffer

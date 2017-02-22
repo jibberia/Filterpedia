@@ -179,7 +179,7 @@ class FilterDetail: UIView
     
     func updateFromFilterName()
     {
-        guard let filterName = filterName, filter = CIFilter(name: filterName) else
+        guard let filterName = filterName, let filter = CIFilter(name: filterName) else
         {
             return
         }
@@ -219,24 +219,21 @@ class FilterDetail: UIView
             if let attribute = attributes[inputKey] as? [String : AnyObject]
             {
                 // default image
-                if let className = attribute[kCIAttributeClass] as? String
-                    where className == "CIImage" && filterParameterValues[inputKey] == nil
+                if let className = attribute[kCIAttributeClass] as? String where className == "CIImage" && filterParameterValues[inputKey] == nil
                 {
                     filterParameterValues[inputKey] = assets.first!.ciImage
                 }
                 
                 // ensure previous values don't exceed kCIAttributeSliderMax for this filter
                 if let maxValue = attribute[kCIAttributeSliderMax] as? Float,
-                    filterParameterValue = filterParameterValues[inputKey] as? Float
-                    where filterParameterValue > maxValue
+                    let filterParameterValue = filterParameterValues[inputKey] as? Float where filterParameterValue > maxValue
                 {
                     filterParameterValues[inputKey] = maxValue
                 }
                 
                 // ensure vector is correct length
                 if let defaultVector = attribute[kCIAttributeDefault] as? CIVector,
-                    filterParameterValue = filterParameterValues[inputKey] as? CIVector
-                    where defaultVector.count != filterParameterValue.count
+                    let filterParameterValue = filterParameterValues[inputKey] as? CIVector where defaultVector.count != filterParameterValue.count
                 {
                     filterParameterValues[inputKey] = defaultVector
                 }
@@ -293,7 +290,7 @@ class FilterDetail: UIView
                         kCIInputImageKey: outputImage])!
                 
                 finalImage = context.createCGImage(stretch.outputImage!,
-                    fromRect: self.rect640x640)
+                    fromRect: self.rect640x640)!
             }
             else if outputImage.extent.width < 640 || outputImage.extent.height < 640
             {
@@ -304,12 +301,12 @@ class FilterDetail: UIView
                     forKey: kCIInputImageKey)
                 
                 finalImage = context.createCGImage(self.compositeOverBlackFilter.outputImage!,
-                    fromRect: self.rect640x640)
+                    fromRect: self.rect640x640)!
             }
             else
             {
                 finalImage = context.createCGImage(outputImage,
-                    fromRect: self.rect640x640)
+                    fromRect: self.rect640x640)!
             }
             
             let endTime = (CFAbsoluteTimeGetCurrent() - startTime)
@@ -404,7 +401,7 @@ extension FilterDetail: UITableViewDataSource
             forIndexPath: indexPath) as! FilterInputItemRenderer
  
         if let inputKey = currentFilter?.inputKeys[indexPath.row],
-            attribute = currentFilter?.attributes[inputKey] as? [String : AnyObject]
+            let attribute = currentFilter?.attributes[inputKey] as? [String : AnyObject]
         {
             cell.detail = (inputKey: inputKey,
                 attribute: attribute,
@@ -423,7 +420,7 @@ extension FilterDetail: FilterInputItemRendererDelegate
 {
     func filterInputItemRenderer(filterInputItemRenderer: FilterInputItemRenderer, didChangeValue: AnyObject?, forKey: String?)
     {
-        if let key = forKey, value = didChangeValue
+        if let key = forKey, let value = didChangeValue
         {
             filterParameterValues[key] = value
             
