@@ -104,7 +104,7 @@ class SimpleSky: CIFilter
         
         guard let path = shaderPath,
             let code = try? String(contentsOfFile: path),
-            let kernel = CIColorKernel(string: code) else
+            let kernel = CIColorKernel(source: code) else
         {
             fatalError("Unable to build Sky shader")
         }
@@ -118,7 +118,7 @@ class SimpleSky: CIFilter
         
         let arguments = [inputWidth, inputHeight, inputSunDiameter, inputAlbedo, inputSunAzimuth, inputSunAlitude, inputSkyDarkness, inputScattering]
         
-        let final = skyKernel.apply(withExtent: extent, arguments: arguments)?.cropping(to: extent)
+        let final = skyKernel.apply(extent: extent, arguments: arguments)?.cropped(to: extent)
         
         return final
     }

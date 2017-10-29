@@ -59,7 +59,7 @@ class CausticNoise: CIFilter
   }
   
   let causticNoiseKernel = CIColorKernel(
-    string: "kernel vec4 mainImage(float time, float tileSize) " +
+    source: "kernel vec4 mainImage(float time, float tileSize) " +
       "{ " +
       "    vec2 uv = destCoord() / tileSize; " +
       
@@ -93,7 +93,7 @@ class CausticNoise: CIFilter
     
     let extent = CGRect(x: 0, y: 0, width: inputWidth, height: inputHeight)
     
-    return causticNoiseKernel.apply(withExtent: extent, arguments: [inputTime, inputTileSize])
+    return causticNoiseKernel.apply(extent: extent, arguments: [inputTime, inputTileSize])
   }
 }
 
@@ -196,7 +196,7 @@ class CausticRefraction: CIFilter
           withInputParameters: ["inputTime": inputTime, "inputTileSize": inputTileSize])?.outputImage!
         .applyingFilter(
           "CIGaussianBlur",
-          withInputParameters: [kCIInputRadiusKey: inputSoftening])
+          parameters: [kCIInputRadiusKey: inputSoftening])
       
       let arguments = [
         inputImage,
@@ -206,7 +206,7 @@ class CausticRefraction: CIFilter
         inputLightingAmount] as [Any]
       
       return refractingKernel.apply(
-        withExtent: extent,
+        extent: extent,
         roiCallback:
         {
           (index, rect) in
@@ -216,7 +216,7 @@ class CausticRefraction: CIFilter
     }
   
     let refractingKernel = CIKernel(
-      string: "float lumaAtOffset(sampler source, vec2 origin, vec2 offset)" +
+      source: "float lumaAtOffset(sampler source, vec2 origin, vec2 offset)" +
         "{" +
         " vec3 pixel = sample(source, samplerTransform(source, origin + offset)).rgb;" +
         " float luma = dot(pixel, vec3(0.2126, 0.7152, 0.0722));" +

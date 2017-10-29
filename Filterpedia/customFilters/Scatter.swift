@@ -48,7 +48,7 @@ class ScatterWarp: CIFilter
         ]
     }
     
-    let kernel = CIWarpKernel(string:
+    let kernel = CIWarpKernel(source:
         // based on https://www.shadertoy.com/view/ltB3zD - the additional seed
         // calculation prevents repetition when using destCoord() as the seed.
         "float noise(vec2 co)" +
@@ -73,13 +73,13 @@ class ScatterWarp: CIFilter
         }
         
         return  kernel.apply(
-            withExtent: inputImage.extent,
+            extent: inputImage.extent,
             roiCallback:
             {
                 (index, rect) in
                 return rect
             },
-            inputImage: inputImage,
+            image: inputImage,
             arguments: [inputScatterRadius])
     }
 }
@@ -122,7 +122,7 @@ class Scatter: CIFilter
         ]
     }
     
-    let kernel = CIKernel(string:
+    let kernel = CIKernel(source:
         "kernel vec4 scatter(sampler image, sampler noise, float radius)" +
         "{" +
         "   vec2 workingSpaceCoord = destCoord() + -radius + sample(noise, samplerCoord(noise)).xy * radius * 2.0; " +
@@ -138,13 +138,13 @@ class Scatter: CIFilter
         }
         
         let noise = CIFilter(name: "CIRandomGenerator")!.outputImage!
-            .applyingFilter("CIGaussianBlur", withInputParameters: [kCIInputRadiusKey: inputScatterSmoothness])
-            .cropping(to: inputImage.extent)
+            .applyingFilter("CIGaussianBlur", parameters: [kCIInputRadiusKey: inputScatterSmoothness])
+            .cropped(to: inputImage.extent)
         
         let arguments = [inputImage, noise, inputScatterRadius] as [Any]
 
         return kernel.apply(
-            withExtent: inputImage.extent,
+            extent: inputImage.extent,
             roiCallback:
             {
                 (index, rect) in

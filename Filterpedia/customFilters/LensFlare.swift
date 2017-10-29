@@ -225,7 +225,7 @@ class LensFlare: CIFilter
     
     let sunbeamsFilter = CIFilter(name: "CISunbeamsGenerator", withInputParameters: ["inputStriationStrength": 0])
     
-    var colorKernel = CIColorKernel(string:
+    var colorKernel = CIColorKernel(source:
         "float brightnessWithinHexagon(vec2 coord, vec2 center, float v)" +
         "{" +
         "   float h = v * sqrt(3.0);" +
@@ -287,12 +287,12 @@ class LensFlare: CIFilter
             inputColor, inputReflectionBrightness] as [Any]
         
         let lensFlareImage = colorKernel.apply(
-            withExtent: extent,
-            arguments: arguments)?.applyingFilter("CIGaussianBlur", withInputParameters: [kCIInputRadiusKey: 2])
+            extent: extent,
+            arguments: arguments)?.applyingFilter("CIGaussianBlur", parameters: [kCIInputRadiusKey: 2])
         
         return lensFlareImage?.applyingFilter(
             "CIAdditionCompositing",
-            withInputParameters: [kCIInputBackgroundImageKey: sunbeamsImage]).cropping(to: extent)
+            parameters: [kCIInputBackgroundImageKey: sunbeamsImage]).cropped(to: extent)
     }
 }
 

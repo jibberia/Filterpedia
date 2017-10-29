@@ -168,7 +168,7 @@ class FilterDetail: UIView
         fatalError("init(coder:) has not been implemented")
     }
     
-    func toggleHistogramView()
+    @objc func toggleHistogramView()
     {
        histogramDisplayHidden = !histogramToggleSwitch.isOn
     }

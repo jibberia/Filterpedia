@@ -61,7 +61,7 @@ class HomogeneousColorBlur: CIFilter
         ]
     }
     
-    let kernel = CIKernel(string:
+    let kernel = CIKernel(source:
         "kernel vec4 colorDirectedBlurKernel(sampler image, float radius, float threshold)" +
             "{" +
             "   int r = int(radius);" +
@@ -95,7 +95,7 @@ class HomogeneousColorBlur: CIFilter
         let arguments = [inputImage, inputRadius, inputColorThreshold * sqrt(3.0)] as [Any]
         
         return kernel.apply(
-            withExtent: inputImage.extent,
+            extent: inputImage.extent,
             roiCallback:
             {
             (index, rect) in
@@ -161,7 +161,7 @@ class ColorDirectedBlur: CIFilter
         ]
     }
     
-    let kernel = CIKernel(string:
+    let kernel = CIKernel(source:
         "kernel vec4 colorDirectedBlurKernel(sampler image, float radius, float threshold)" +
         "{" +
         
@@ -229,7 +229,7 @@ class ColorDirectedBlur: CIFilter
         
         for _ in 0 ... Int(inputIterations)
         {
-            let final = kernel.apply(withExtent: inputImage.extent,
+            let final = kernel.apply(extent: inputImage.extent,
                                                roiCallback:
                 {
                     (index, rect) in

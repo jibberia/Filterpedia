@@ -161,7 +161,7 @@ class Flame: CIFilter
         
         guard let path = shaderPath,
             let code = try? String(contentsOfFile: path),
-            let kernel = CIColorKernel(string: code) else
+            let kernel = CIColorKernel(source: code) else
         {
             fatalError("Unable to build Flame shader")
         }
@@ -180,7 +180,7 @@ class Flame: CIFilter
                          inputStrength] as [Any]
         
         return flameKernel.apply(
-            withExtent: CGRect(origin: CGPoint.zero, size: CGSize(width: inputWidth, height: inputHeight)),
+            extent: CGRect(origin: CGPoint.zero, size: CGSize(width: inputWidth, height: inputHeight)),
             arguments: arguments)
     }
     

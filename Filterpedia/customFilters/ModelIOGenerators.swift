@@ -61,7 +61,7 @@ class ModelIOColorScalarNoise: CIFilter
     var inputSize = CIVector(x: 640, y: 640)
     var inputSmoothness: CGFloat = 0.5
     
-    let makeOpaqueKernel = CIColorKernel(string: "kernel vec4 xyz(__sample pixel) { return vec4(pixel.rgb, 1.0); }")
+    let makeOpaqueKernel = CIColorKernel(source: "kernel vec4 xyz(__sample pixel) { return vec4(pixel.rgb, 1.0); }")
     
     override var outputImage: CIImage!
     {
@@ -76,7 +76,7 @@ class ModelIOColorScalarNoise: CIFilter
         
         let final = CIImage(cgImage: noiseImage)
         
-        return makeOpaqueKernel?.apply(withExtent: final.extent, arguments: [final])
+        return makeOpaqueKernel?.apply(extent: final.extent, arguments: [final])
     }
     
     override var attributes: [String : Any]
@@ -153,7 +153,7 @@ class ModelIOSkyGenerator: CIFilter
         let skyImage = sky!.imageFromTexture()!.takeRetainedValue()
         
         return  CIImage(cgImage: skyImage)
-            .cropping(to: CGRect(x: 0, y: 0, width: inputSize.x, height: inputSize.y))
+            .cropped(to: CGRect(x: 0, y: 0, width: inputSize.x, height: inputSize.y))
     }
     
         

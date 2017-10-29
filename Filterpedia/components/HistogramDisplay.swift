@@ -71,7 +71,7 @@ class HistogramDisplay: UIView
     let scaleLabel: UILabel =
     {
         let label = UILabel()
-        label.font = UIFont.monospacedDigitSystemFont(ofSize: 22, weight: UIFontWeightRegular)
+        label.font = UIFont.monospacedDigitSystemFont(ofSize: 22, weight: UIFont.Weight.regular)
         label.textAlignment = .right
         label.text = "100%"
         label.alpha = 0

@@ -95,7 +95,7 @@ class ConcentricSineWaves: CIFilter
         ]
     }
     
-    let kernel = CIColorKernel(string:
+    let kernel = CIColorKernel(source:
         "kernel vec4 concentricSineWaves(float ringWidth, vec2 center, float amplitude, float frequency, vec4 color0, vec4 color1)" +
             "{" +
 
@@ -121,7 +121,7 @@ class ConcentricSineWaves: CIFilter
             size: CGSize(width: inputSize.x, height: inputSize.y))
 
         return kernel.apply(
-            withExtent: extent,
+            extent: extent,
             arguments: [inputWidth, inputCenter, inputAmplitude, Int(inputFrequency), inputColor0, inputColor1])
     }
 }

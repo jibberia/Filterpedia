@@ -67,7 +67,7 @@ class SimplePlasma: CIFilter
         ]
     }
     
-    let kernel = CIColorKernel(string:
+    let kernel = CIColorKernel(source:
         "kernel vec4 colorkernel(float time, float iterations, float sharpness, float scale)" +
             "{" +
             "   vec2 uv = destCoord() / scale; " +
@@ -97,7 +97,7 @@ class SimplePlasma: CIFilter
         let extent = CGRect(origin: CGPoint.zero, size: CGSize(width: inputSize.x, height: inputSize.y))
         
         return kernel.apply(
-            withExtent: extent,
+            extent: extent,
             arguments: [inputTime / 10, inputIterations, inputSharpness, inputScale])
     }
     

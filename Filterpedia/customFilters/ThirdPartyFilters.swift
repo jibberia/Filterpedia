@@ -65,12 +65,12 @@ class BayerDitherFilter: CIFilter
         
         guard let path = CIKernel_DitherBayer,
             let code = try? String(contentsOfFile: path),
-            let ditherKernel = CIColorKernel(string: code) else { return nil }
+            let ditherKernel = CIColorKernel(source: code) else { return nil }
         guard let inputImage = inputImage else { return nil }
         
         let extent = inputImage.extent
         let arguments = [inputImage, inputIntensity, inputMatrix, inputPalette] as [Any]
         
-        return ditherKernel.apply(withExtent: extent, arguments: arguments)
+        return ditherKernel.apply(extent: extent, arguments: arguments)
     }
 }

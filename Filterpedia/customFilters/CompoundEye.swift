@@ -74,7 +74,7 @@ class CompoundEye: CIFilter
         inputBackgroundColor = CIColor(red: 0.2, green: 0.2, blue: 0.2)
     }
     
-    let colorKernel = CIColorKernel(string:
+    let colorKernel = CIColorKernel(source:
         "kernel vec4 color(float width, float halfWidth, float height, float diameter)" +
         "{" +
         " float y = float(int(destCoord().y / height)) * height;  " +
@@ -91,7 +91,7 @@ class CompoundEye: CIFilter
         "}"
     )
     
-    let warpKernel = CIWarpKernel(string:
+    let warpKernel = CIWarpKernel(source:
         "kernel vec2 warp(float width, float halfWidth, float height, float diameter, float bend)" +
         "{ " +
         
@@ -129,20 +129,20 @@ class CompoundEye: CIFilter
             
             let extent = inputImage.extent
             
-            let warpedImage = warpKernel.apply(withExtent: extent,
+            let warpedImage = warpKernel.apply(extent: extent,
                 roiCallback:
                 {
                     (index, rect) in
                     return rect
                 },
-                inputImage: inputImage,
+                image: inputImage,
                 arguments: [inputWidth, halfWidth, height, diameter, inputBend])!
             
-            let maskImage =  colorKernel.apply(withExtent: extent,
+            let maskImage =  colorKernel.apply(extent: extent,
                 arguments: [inputWidth, halfWidth, height, diameter])!
             
             let backgroundImage = CIImage(color: inputBackgroundColor)
-                .cropping(to: extent)
+                .cropped(to: extent)
             
             return CIFilter(name: "CIBlendWithMask",
                 withInputParameters: [

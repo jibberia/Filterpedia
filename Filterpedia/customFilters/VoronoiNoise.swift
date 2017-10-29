@@ -69,7 +69,7 @@ class VoronoiNoise: CIFilter
         
         guard let path = shaderPath,
             let code = try? String(contentsOfFile: path),
-            let kernel = CIColorKernel(string: code) else
+            let kernel = CIColorKernel(source: code) else
         {
             fatalError("Unable to build Voronoi shader")
         }
@@ -80,7 +80,7 @@ class VoronoiNoise: CIFilter
     override var outputImage: CIImage?
     {
         return voronoiKernel.apply(
-            withExtent: CGRect(origin: CGPoint.zero, size: CGSize(width: inputWidth, height: inputHeight)),
+            extent: CGRect(origin: CGPoint.zero, size: CGSize(width: inputWidth, height: inputHeight)),
             arguments: [inputSeed, inputSize, inputDensity])
     }
 }

@@ -72,7 +72,7 @@ class LabelledSlider: UIControl
         fatalError("init(coder:) has not been implemented")
     }
     
-    func sliderChangeHandler()
+    @objc func sliderChangeHandler()
     {
         value = slider.value
 

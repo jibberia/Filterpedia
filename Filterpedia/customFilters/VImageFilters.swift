@@ -160,7 +160,7 @@ class CircularBokeh: CIFilter, VImageFilter
         
         return outImage!.applyingFilter(
             "CIGaussianBlur",
-            withInputParameters: [kCIInputRadiusKey: inputBlurRadius])
+            parameters: [kCIInputRadiusKey: inputBlurRadius])
     }
 }
 

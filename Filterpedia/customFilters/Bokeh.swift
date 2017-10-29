@@ -81,7 +81,7 @@ class MaskedVariableCircularBokeh: CIFilter
     
     lazy var maskedVariableBokeh: CIKernel =
     {
-        return CIKernel(string:
+        return CIKernel(source:
             "kernel vec4 lumaVariableBlur(sampler image, sampler bokehMask, float maxBokehRadius) " +
                 "{ " +
                 "    vec2 d = destCoord(); " +
@@ -135,7 +135,7 @@ class MaskedVariableCircularBokeh: CIFilter
         let extent = inputImage.extent
         
         let blur = maskedVariableBokeh.apply(
-            withExtent: inputImage.extent,
+            extent: inputImage.extent,
             roiCallback:
             {
                 (index, rect) in
@@ -144,8 +144,8 @@ class MaskedVariableCircularBokeh: CIFilter
             arguments: [inputImage, inputBlurMask, inputMaxBokehRadius])
         
         return blur!
-            .applyingFilter("CIMaskedVariableBlur", withInputParameters: ["inputMask": inputBlurMask, "inputRadius": inputBlurRadius])
-            .cropping(to: extent)
+            .applyingFilter("CIMaskedVariableBlur", parameters: ["inputMask": inputBlurMask, "inputRadius": inputBlurRadius])
+            .cropped(to: extent)
     }
 }
 

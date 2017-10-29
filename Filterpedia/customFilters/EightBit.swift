@@ -92,7 +92,7 @@ class EightBit: CIFilter
         kernelString += "   return vec4(returnColor, 1.0) ; \n"
         kernelString += "} \n"
         
-        guard let kernel = CIColorKernel(string: kernelString) else
+        guard let kernel = CIColorKernel(source: kernelString) else
         {
             return nil
         }
@@ -100,8 +100,8 @@ class EightBit: CIFilter
         let extent = inputImage.extent
         
         
-        let final = kernel.apply(withExtent: extent,
-            arguments: [inputImage.applyingFilter("CIPixellate", withInputParameters: [kCIInputScaleKey: inputScale])])
+        let final = kernel.apply(extent: extent,
+            arguments: [inputImage.applyingFilter("CIPixellate", parameters: [kCIInputScaleKey: inputScale])])
         
         return final
     }

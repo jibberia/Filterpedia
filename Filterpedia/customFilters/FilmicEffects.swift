@@ -55,7 +55,7 @@ class BleachBypassFilter: CIFilter
         inputAmount = 1
     }
     
-    let bleachBypassKernel = CIColorKernel(string:
+    let bleachBypassKernel = CIColorKernel(source:
         "kernel vec4 bleachBypassFilter(__sample image, float amount) \n" +
         "{ \n" +
         "   float luma = dot(image.rgb, vec3(0.2126, 0.7152, 0.0722));" +
@@ -80,7 +80,7 @@ class BleachBypassFilter: CIFilter
         let extent = inputImage.extent
         let arguments = [inputImage, inputAmount] as [Any]
         
-        return bleachBypassKernel.apply(withExtent: extent, arguments: arguments)
+        return bleachBypassKernel.apply(extent: extent, arguments: arguments)
     }
 }
 
@@ -118,7 +118,7 @@ class TechnicolorFilter: CIFilter
         inputAmount = 1
     }
 
-    let technicolorKernel = CIColorKernel(string:
+    let technicolorKernel = CIColorKernel(source:
         "kernel vec4 technicolorFilter(__sample image, float amount)" +
         "{" +
         "   vec3 redmatte = 1.0 - vec3(image.r - ((image.g + image.b)/2.0));" +
@@ -144,6 +144,6 @@ class TechnicolorFilter: CIFilter
         let extent = inputImage.extent
         let arguments = [inputImage, inputAmount] as [Any]
         
-        return technicolorKernel.apply(withExtent: extent, arguments: arguments)
+        return technicolorKernel.apply(extent: extent, arguments: arguments)
     }
 }

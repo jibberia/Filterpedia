@@ -38,7 +38,7 @@ class CMYKToneCurves: CIFilter
          "   return vec4(c, m, y, k);" +
          "}"
 
-    static let cmykToRGBKernel = CIColorKernel(string:
+    static let cmykToRGBKernel = CIColorKernel(source:
         "vec4 cmykToRGB(float c, float m, float y, float k)" +
         "{" +
         "    float r = (1.0 - c) * (1.0 - k);" +
@@ -53,25 +53,25 @@ class CMYKToneCurves: CIFilter
         "}"
     )
     
-    static let toCyanKernel = CIColorKernel(string: rgbToCMYK +
+    static let toCyanKernel = CIColorKernel(source: rgbToCMYK +
         "kernel vec4 colorKernel(__sample pixel)" +
         "{" +
         " return vec4(rgbToCMYK(pixel.rgb).xxx, 1.0);" +
         "}")
 
-    static let toMagentaKernel = CIColorKernel(string: rgbToCMYK +
+    static let toMagentaKernel = CIColorKernel(source: rgbToCMYK +
         "kernel vec4 colorKernel(__sample pixel)" +
         "{" +
         " return vec4(rgbToCMYK(pixel.rgb).yyy, 1.0);" +
         "}")
 
-    static let toYellowKernel = CIColorKernel(string: rgbToCMYK +
+    static let toYellowKernel = CIColorKernel(source: rgbToCMYK +
         "kernel vec4 colorKernel(__sample pixel)" +
         "{" +
         " return vec4(rgbToCMYK(pixel.rgb).zzz, 1.0);" +
         "}")
 
-    static let toBlackKernel = CIColorKernel(string: rgbToCMYK +
+    static let toBlackKernel = CIColorKernel(source: rgbToCMYK +
         "kernel vec4 colorKernel(__sample pixel)" +
         "{" +
         " return vec4(rgbToCMYK(pixel.rgb).www, 1.0);" +
@@ -80,7 +80,7 @@ class CMYKToneCurves: CIFilter
     static func applyToneCurve(_ image: CIImage, values: CIVector) -> CIImage
     {
         return image.applyingFilter("CIToneCurve",
-            withInputParameters: [
+            parameters: [
                 "inputPoint0": CIVector(x: 0.0, y: values.value(at: 0)),
                 "inputPoint1": CIVector(x: 0.25, y: values.value(at: 1)),
                 "inputPoint2": CIVector(x: 0.5, y: values.value(at: 2)),
@@ -152,10 +152,10 @@ class CMYKToneCurves: CIFilter
         
         let extent = inputImage.extent
         
-        let cyanImage = CMYKToneCurves.toCyanKernel?.apply(withExtent: extent, arguments: [inputImage])
-        let magentaImage = CMYKToneCurves.toMagentaKernel?.apply(withExtent: extent, arguments: [inputImage])
-        let yellowImage = CMYKToneCurves.toYellowKernel?.apply(withExtent: extent, arguments: [inputImage])
-        let blackImage = CMYKToneCurves.toBlackKernel?.apply(withExtent: extent, arguments: [inputImage])
+        let cyanImage = CMYKToneCurves.toCyanKernel?.apply(extent: extent, arguments: [inputImage])
+        let magentaImage = CMYKToneCurves.toMagentaKernel?.apply(extent: extent, arguments: [inputImage])
+        let yellowImage = CMYKToneCurves.toYellowKernel?.apply(extent: extent, arguments: [inputImage])
+        let blackImage = CMYKToneCurves.toBlackKernel?.apply(extent: extent, arguments: [inputImage])
         
         let cyan = CMYKToneCurves.applyToneCurve(cyanImage!, values: inputCyanValues)
         let magenta = CMYKToneCurves.applyToneCurve(magentaImage!, values: inputMagentaValues)
@@ -163,7 +163,7 @@ class CMYKToneCurves: CIFilter
         let black = CMYKToneCurves.applyToneCurve(blackImage!, values: inputBlackValues)
         
         let final = CMYKToneCurves.cmykToRGBKernel?
-            .apply(withExtent: inputImage.extent, arguments: [cyan, magenta, yellow, black])
+            .apply(extent: inputImage.extent, arguments: [cyan, magenta, yellow, black])
         
         return final
     }
@@ -231,7 +231,7 @@ class CMYKLevels: CIFilter
         ]
     }
     
-    let kernel = CIColorKernel(string:
+    let kernel = CIColorKernel(source:
         "vec4 rgbToCMYK(vec3 rgb)" +
         "{" +
         "   float k = 1.0 - max(max(rgb.r, rgb.g), rgb.b); \n" +
@@ -273,7 +273,7 @@ class CMYKLevels: CIFilter
         let extent = inputImage.extent
         let arguments = [inputImage, inputCyanMultiplier, inputMagentaMultiplier, inputYellowMultiplier, inputBlackMultiplier] as [Any]
         
-        return kernel.apply(withExtent: extent, arguments: arguments)
+        return kernel.apply(extent: extent, arguments: arguments)
     }
 }
 
@@ -326,7 +326,7 @@ class CMYKRegistrationMismatch: CIFilter
         ]
     }
     
-    let kernel = CIKernel(string:
+    let kernel = CIKernel(source:
 
         "vec4 rgbToCMYK(vec3 rgb)" +
         "{" +
@@ -373,7 +373,7 @@ class CMYKRegistrationMismatch: CIFilter
             return nil
         }
         
-        let final = kernel.apply(withExtent: inputImage.extent,
+        let final = kernel.apply(extent: inputImage.extent,
                                            roiCallback:
             {
                 (index, rect) in

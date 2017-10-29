@@ -149,12 +149,12 @@ class FilterInputItemRenderer: UITableViewCell
     
     // MARK: Change handlers
     
-    func sliderChangeHandler()
+    @objc func sliderChangeHandler()
     {
         value = slider.value as AnyObject?
     }
     
-    func vectorSliderChangeHandler()
+    @objc func vectorSliderChangeHandler()
     {
         guard let attributeType = attribute[kCIAttributeClass] as? String,
             let vector = vectorSlider.vector else
@@ -175,12 +175,12 @@ class FilterInputItemRenderer: UITableViewCell
         }
     }
     
-    func imagesSegmentedControlChangeHandler()
+    @objc func imagesSegmentedControlChangeHandler()
     {
         value = assets[imagesSegmentedControl.selectedSegmentIndex].ciImage
     }
     
-    func textEditClicked()
+    @objc func textEditClicked()
     {
         guard let rootController = UIApplication.shared.keyWindow!.rootViewController else
         {

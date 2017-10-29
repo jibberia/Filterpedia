@@ -89,7 +89,7 @@ class CarnivalMirror: CIFilter
         
     }
     
-    let carnivalMirrorKernel = CIWarpKernel(string:
+    let carnivalMirrorKernel = CIWarpKernel(source:
         "kernel vec2 carnivalMirror(float xWavelength, float xAmount, float yWavelength, float yAmount)" +
         "{" +
         "   float y = destCoord().y + sin(destCoord().y / yWavelength) * yAmount; " +
@@ -109,13 +109,13 @@ class CarnivalMirror: CIFilter
             
             let extent = inputImage.extent
             
-            return kernel.apply(withExtent: extent,
+            return kernel.apply(extent: extent,
                 roiCallback:
                 {
                     (index, rect) in
                     return rect
                 },
-                inputImage: inputImage,
+                image: inputImage,
                 arguments: arguments)
         }
         return nil

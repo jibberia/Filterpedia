@@ -103,7 +103,7 @@ class FilterNavigator: UIView
         fatalError("init(coder:) has not been implemented")
     }
 
-    func segmentedControlChange()
+    @objc func segmentedControlChange()
     {
         mode = segmentedControl.selectedSegmentIndex == 0 ? .Grouped : .Flat
     }

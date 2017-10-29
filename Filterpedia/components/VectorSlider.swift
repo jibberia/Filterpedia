@@ -104,7 +104,7 @@ class VectorSlider: UIControl
         }
     }
     
-    func sliderChangeHandler()
+    @objc func sliderChangeHandler()
     {
         let values = stackView.arrangedSubviews
             .filter({ $0 is UISlider })

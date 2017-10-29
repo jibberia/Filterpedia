@@ -66,7 +66,7 @@ class TransverseChromaticAberration: CIFilter
         ]
     }
     
-    let transverseChromaticAberrationKernel = CIKernel(string:
+    let transverseChromaticAberrationKernel = CIKernel(source:
         "kernel vec4 motionBlur(sampler image, vec2 size, float sampleCount, float start, float blur) {" +
         "  int sampleCountInt = int(floor(sampleCount));" +
         "  vec4 accumulator = vec4(0.0);" +
@@ -109,7 +109,7 @@ class TransverseChromaticAberration: CIFilter
                     inputBlur] as [Any]
         
         return kernel.apply(
-            withExtent: inputImage.extent,
+            extent: inputImage.extent,
             roiCallback: {
                 (index, rect) in
                 return rect.insetBy(dx: -1, dy: -1)

@@ -167,19 +167,19 @@ class RefractedTextFilter: CIFilter
             inputLensScale,
             inputLightingAmount] as [Any]
         
-        let blurMask = rawTextImage?.applyingFilter("CIColorInvert", withInputParameters: nil)
+        let blurMask = rawTextImage?.applyingFilter("CIColorInvert", parameters: [:])
         
-        return refractingKernel.apply(withExtent: extent,
+        return refractingKernel.apply(extent: extent,
                 roiCallback:
                 {
                     (index, rect) in
                     return rect
                 },
                 arguments: arguments)!
-            .applyingFilter("CIMaskedVariableBlur", withInputParameters: [
+            .applyingFilter("CIMaskedVariableBlur", parameters: [
                 kCIInputRadiusKey: inputBackgroundBlur,
                 "inputMask": blurMask!])
-            .applyingFilter("CIMaskedVariableBlur", withInputParameters: [
+            .applyingFilter("CIMaskedVariableBlur", parameters: [
                 kCIInputRadiusKey: inputLensBlur,
                 "inputMask": rawTextImage!])
     }
@@ -211,10 +211,10 @@ class RefractedTextFilter: CIFilter
             withInputParameters: [
                 kCIInputRadiusKey: inputRadius,
                 kCIInputImageKey: rawTextImage!])?.outputImage?
-            .cropping(to: inputImage!.extent)
+            .cropped(to: inputImage!.extent)
     }
     
-    let refractingKernel = CIKernel(string:
+    let refractingKernel = CIKernel(source:
         "float lumaAtOffset(sampler source, vec2 origin, vec2 offset)" +
         "{" +
         " vec3 pixel = sample(source, samplerTransform(source, origin + offset)).rgb;" +
