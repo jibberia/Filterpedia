@@ -151,7 +151,7 @@ class FilterInputItemRenderer: UITableViewCell
     
     func sliderChangeHandler()
     {
-        value = slider.value
+        value = slider.value as AnyObject
     }
     
     func vectorSliderChangeHandler()
@@ -195,7 +195,7 @@ class FilterInputItemRenderer: UITableViewCell
             
             if let updatedText = editTextController.textFields?.first?.text
             {
-                self.value = updatedText
+                self.value = updatedText as AnyObject
                 
                 self.textEditButton.setTitle(updatedText, for: UIControlState())
             }

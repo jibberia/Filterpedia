@@ -27,7 +27,7 @@ class TransverseChromaticAberration: CIFilter
     var inputFalloff: CGFloat = 0.2
     var inputSamples: CGFloat = 10
     
-    override var attributes: [String : AnyObject]
+    override var attributes: [String : Any]
     {
         return [
             kCIAttributeFilterDisplayName: "Transverse Chromatic Aberration",
@@ -102,7 +102,7 @@ class TransverseChromaticAberration: CIFilter
             return nil
         }
         
-        let args = [inputImage,
+        let args: [Any] = [inputImage,
                     CIVector(x: inputImage.extent.width, y: inputImage.extent.height),
                     inputSamples,
                     inputFalloff,

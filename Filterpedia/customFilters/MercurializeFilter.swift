@@ -73,8 +73,8 @@ class MercurializeFilter: CIFilter
     
     let sceneKitView = SCNView()
     
-    let omniLightNode = LightNode(type: .Omni)
-    let ambientLightNode = LightNode(type: .Ambient)
+    let omniLightNode = LightNode(type: .omni)
+    let ambientLightNode = LightNode(type: .ambient)
     
     // MARK: Attributes
     
@@ -88,7 +88,7 @@ class MercurializeFilter: CIFilter
         inputScale = 10
     }
     
-    override var attributes: [String : AnyObject]
+    override var attributes: [String : Any]
     {
         return [
             kCIAttributeFilterDisplayName: "Mercurialize Filter",
@@ -241,7 +241,7 @@ class MercurializeFilter: CIFilter
         
         // Material
         
-        material.lightingModelName = SCNLightingModelPhong
+        material.lightingModel = SCNMaterial.LightingModel.phong
         material.specular.contents = UIColor.white
         material.diffuse.contents = UIColor.darkGray
         material.shininess = 0.15
@@ -254,12 +254,12 @@ class MercurializeFilter: CIFilter
 
 class LightNode: SCNNode
 {
-    required init(type: LightType)
+    required init(type: SCNLight.LightType)
     {
         super.init()
         
         light = SCNLight()
-        light!.type = type.rawValue
+        light!.type = type//.rawValue
     }
     
     required init?(coder aDecoder: NSCoder)
@@ -276,11 +276,11 @@ class LightNode: SCNNode
     }
 }
 
-enum LightType: String
-{
-    case Ambient = "ambient"
-    case Omni = "omni"
-    case Directional = "directional"
-    case Spot = "spot"
-}
+//enum LightType: String
+//{
+//    case Ambient = "ambient"
+//    case Omni = "omni"
+//    case Directional = "directional"
+//    case Spot = "spot"
+//}
 

@@ -63,7 +63,7 @@ class RefractedTextFilter: CIFilter
     private var refractingImage: CIImage?
     private var rawTextImage: CIImage?
     
-    override var attributes: [String : AnyObject]
+    override var attributes: [String : Any]
     {
         return [
             kCIAttributeFilterDisplayName: "Refracted Text",
@@ -161,7 +161,7 @@ class RefractedTextFilter: CIFilter
         }
         
         let extent = inputImage.extent
-        let arguments = [inputImage,
+        let arguments: [Any] = [inputImage,
             refractingImage!,
             inputRefractiveIndex,
             inputLensScale,

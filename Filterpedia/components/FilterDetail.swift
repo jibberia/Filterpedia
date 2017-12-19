@@ -95,7 +95,7 @@ class FilterDetail: UIView
     }()
     
     #if !arch(i386) && !arch(x86_64)
-        let ciMetalContext = CIContext(MTLDevice: MTLCreateSystemDefaultDevice()!)
+        let ciMetalContext = CIContext(mtlDevice: MTLCreateSystemDefaultDevice()!)
     #else
         let ciMetalContext = CIContext()
     #endif
@@ -130,10 +130,10 @@ class FilterDetail: UIView
         }
     }
     
-    private var currentFilter: CIFilter?
+    var currentFilter: CIFilter?
     
     /// User defined filter parameter values
-    private var filterParameterValues: [String: AnyObject] = [kCIInputImageKey: assets.first!.ciImage]
+    var filterParameterValues: [String: AnyObject] = [kCIInputImageKey: assets.first!.ciImage]
     
     override init(frame: CGRect)
     {
@@ -230,7 +230,7 @@ class FilterDetail: UIView
                     let filterParameterValue = filterParameterValues[inputKey] as? Float
                     , filterParameterValue > maxValue
                 {
-                    filterParameterValues[inputKey] = maxValue
+                    filterParameterValues[inputKey] = maxValue as AnyObject
                 }
                 
                 // ensure vector is correct length

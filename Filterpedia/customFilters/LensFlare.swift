@@ -47,9 +47,9 @@ class LensFlare: CIFilter
     var inputReflectionSizeSix: CGFloat = 40
     var inputReflectionSizeSeven: CGFloat = 20
     
-    override var attributes: [String : AnyObject]
+    override var attributes: [String : Any]
     {
-        let positions: [String : AnyObject] = [
+        let positions: [String : Any] = [
             "inputPositionOne": [kCIAttributeIdentity: 0,
                 kCIAttributeClass: "NSNumber",
                 kCIAttributeDefault: 0.15,
@@ -114,7 +114,7 @@ class LensFlare: CIFilter
                 kCIAttributeType: kCIAttributeTypeScalar],
         ]
         
-        let sizes: [String : AnyObject] = [
+        let sizes: [String : Any] = [
             "inputReflectionSizeZero": [kCIAttributeIdentity: 0,
                 kCIAttributeClass: "NSNumber",
                 kCIAttributeDefault: 20,
@@ -194,7 +194,7 @@ class LensFlare: CIFilter
                 kCIAttributeType: kCIAttributeTypeOffset]
         ]
         
-        let attributes: [String : AnyObject] = [
+        let attributes: [String : Any] = [
             kCIAttributeFilterDisplayName: "Lens Flare",
             
             "inputOrigin": [kCIAttributeIdentity: 0,
@@ -280,7 +280,7 @@ class LensFlare: CIFilter
         
         let sunbeamsImage = sunbeamsFilter!.outputImage!
         
-        let arguments = [
+        let arguments: [Any] = [
             reflectionZero, reflectionOne, reflectionTwo, reflectionThree, reflectionFour, reflectionFive, reflectionSix, reflectionSeven,
             inputReflectionSizeZero, inputReflectionSizeOne, inputReflectionSizeTwo, inputReflectionSizeThree, inputReflectionSizeFour,
             inputReflectionSizeFive, inputReflectionSizeSix, inputReflectionSizeSeven,

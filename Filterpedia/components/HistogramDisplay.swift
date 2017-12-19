@@ -36,38 +36,39 @@ class HistogramDisplay: UIView
         decode: nil,
         renderingIntent: .defaultIntent)
     
-    func histogramCalculation(_ imageRef: CGImage) -> (red: [UInt], green: [UInt], blue: [UInt])
-    {
-        var inBuffer: vImage_Buffer = vImage_Buffer()
+//    func histogramCalculation(_ imageRef: CGImage) -> (red: [UInt], green: [UInt], blue: [UInt])
+//    {
+//        var inBuffer: vImage_Buffer = vImage_Buffer()
+//
+//        vImageBuffer_InitWithCGImage(
+//            &inBuffer,
+//            &format,
+//            nil,
+//            imageRef,
+//            UInt32(kvImageNoFlags))
+//
+//        let red = [UInt](repeating: 0, count: 256)
+//        let green = [UInt](repeating: 0, count: 256)
+//        let blue = [UInt](repeating: 0, count: 256)
+//        let alpha = [UInt](repeating: 0, count: 256)
+//        
+//        let redPtr = UnsafeMutablePointer<vImagePixelCount>(mutating: red)
+//        let greenPtr = UnsafeMutablePointer<vImagePixelCount>(mutating: green)
+//        let bluePtr = UnsafeMutablePointer<vImagePixelCount>(mutating: blue)
+//        let alphaPtr = UnsafeMutablePointer<vImagePixelCount>(mutating: alpha)
+//        
+//        let rgba = [redPtr, greenPtr, bluePtr, alphaPtr]
+//
+//        let histogram = UnsafeMutablePointer<UnsafeMutablePointer<vImagePixelCount>?>(rgba)
+//        
+//        vImageHistogramCalculation_ARGB8888(&inBuffer, histogram, UInt32(kvImageNoFlags))
+//
+//        free(inBuffer.data)
+//
+//        return (red, green, blue)
+//        return nil
+//    }
 
-        vImageBuffer_InitWithCGImage(
-            &inBuffer,
-            &format,
-            nil,
-            imageRef,
-            UInt32(kvImageNoFlags))
-
-        let red = [UInt](repeating: 0, count: 256)
-        let green = [UInt](repeating: 0, count: 256)
-        let blue = [UInt](repeating: 0, count: 256)
-        let alpha = [UInt](repeating: 0, count: 256)
-        
-        let redPtr = UnsafeMutablePointer<vImagePixelCount>(red)
-        let greenPtr = UnsafeMutablePointer<vImagePixelCount>(green)
-        let bluePtr = UnsafeMutablePointer<vImagePixelCount>(blue)
-        let alphaPtr = UnsafeMutablePointer<vImagePixelCount>(alpha)
-        
-        let rgba = [redPtr, greenPtr, bluePtr, alphaPtr]
-
-        let histogram = UnsafeMutablePointer<UnsafeMutablePointer<vImagePixelCount>?>(rgba)
-        
-        vImageHistogramCalculation_ARGB8888(&inBuffer, histogram, UInt32(kvImageNoFlags))
-
-        free(inBuffer.data)
-        
-        return (red, green, blue)
-    }
-    
     let scaleLabel: UILabel =
     {
         let label = UILabel()
@@ -176,24 +177,24 @@ class HistogramDisplay: UIView
     
     func drawHistogram()
     {
-        guard let imageRef = imageRef else
-        {
-            redLayer.path = nil
-            greenLayer.path = nil
-            blueLayer.path = nil
-            return
-        }
-        
-        let histogram = histogramCalculation(imageRef)
-        
-        let maximum = max(
-            histogram.red.max() ?? 0,
-            histogram.green.max() ?? 0,
-            histogram.blue.max() ?? 0)
-        
-        drawChannel(histogram.red, maximum: maximum, layer: redLayer)
-        drawChannel(histogram.green, maximum: maximum, layer: greenLayer)
-        drawChannel(histogram.blue, maximum: maximum, layer: blueLayer)
+//        guard let imageRef = imageRef else
+//        {
+//            redLayer.path = nil
+//            greenLayer.path = nil
+//            blueLayer.path = nil
+//            return
+//        }
+//
+//        let histogram = histogramCalculation(imageRef)
+//
+//        let maximum = max(
+//            histogram.red.max() ?? 0,
+//            histogram.green.max() ?? 0,
+//            histogram.blue.max() ?? 0)
+//
+//        drawChannel(histogram.red, maximum: maximum, layer: redLayer)
+//        drawChannel(histogram.green, maximum: maximum, layer: greenLayer)
+//        drawChannel(histogram.blue, maximum: maximum, layer: blueLayer)
     }
     
     func drawChannel(_ data: [UInt], maximum: UInt, layer: CAShapeLayer)

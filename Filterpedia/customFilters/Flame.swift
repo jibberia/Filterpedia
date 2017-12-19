@@ -30,7 +30,7 @@ class Flame: CIFilter
     var inputWidth: CGFloat = 640
     var inputHeight: CGFloat = 640
     
-    override var attributes: [String : AnyObject]
+    override var attributes: [String : Any]
     {
         return [
             kCIAttributeFilterDisplayName: "Flame",
@@ -171,7 +171,7 @@ class Flame: CIFilter
     
     override var outputImage: CIImage?
     {
-        let arguments = [inputTime / 1000.0, CIVector(x: inputWidth, y: inputHeight),
+        let arguments: [Any] = [inputTime / 1000.0, CIVector(x: inputWidth, y: inputHeight),
                          inputIterations, inputAnisotropy, inputEdgeDefinition,
                          inputHotspotExponent, inputDensity,
                          inputRedMultiplier, inputRedExponent,

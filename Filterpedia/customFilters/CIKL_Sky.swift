@@ -19,7 +19,7 @@ class SimpleSky: CIFilter
     var inputWidth: CGFloat = 640
     var inputHeight: CGFloat = 640
     
-    override var attributes: [String : AnyObject]
+    override var attributes: [String : Any]
     {
         return [
             kCIAttributeFilterDisplayName: "Simple Sky",
@@ -116,7 +116,7 @@ class SimpleSky: CIFilter
     {
         let extent = CGRect(x: 0, y: 0, width: inputWidth, height: inputHeight)
         
-        let arguments = [inputWidth, inputHeight, inputSunDiameter, inputAlbedo, inputSunAzimuth, inputSunAlitude, inputSkyDarkness, inputScattering]
+        let arguments: [Any] = [inputWidth, inputHeight, inputSunDiameter, inputAlbedo, inputSunAzimuth, inputSunAlitude, inputSkyDarkness, inputScattering]
         
         let final = skyKernel.apply(withExtent: extent, arguments: arguments)?.cropping(to: extent)
         
